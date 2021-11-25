@@ -6,14 +6,15 @@ API będzie dostępne pod adresem `http://localhost:5000/person`
 ## Krótki opis
 
 Aplikacja jest bardzo prosta bo więcej czasu zajęło mi ogarnięcie dockera i entity frameworka.\
-Odpowiada na czasowniki http:\
-\
-GET /person\
-GET /person/{id}\
-POST /person\
-DELETE /person/{id}\
-\
-Przykładowy JSON do czasownika POST
+Odpowiada na czasowniki http:
+- GET /person
+- GET /person/{id}
+- POST /person
+- DELETE /person/{id}
+- PUT /person/{id}
+- PATCH /person/{id}
+
+Przykładowy JSON do czasowników POST i PUT
 ```json
 {
   "name": "name",
@@ -22,6 +23,21 @@ Przykładowy JSON do czasownika POST
   "street": "street",
   "postalCode": "postalcode"
 }
+```
+Przykładowy JSON do czasownika PATCH
+```json
+[
+    {
+        "value": "patched lastname",
+        "path": "lastname",
+        "op": "replace"
+    },
+    {
+        "value": "patched street",
+        "path": "street",
+        "op": "replace"
+    }
+]
 ```
 
 
