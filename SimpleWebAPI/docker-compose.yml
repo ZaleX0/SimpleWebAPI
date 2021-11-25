@@ -2,7 +2,7 @@
 
 services:
     simplewebapi:
-        image: simplewebapi:latest
+        image: zalex0/simplewebapi:latest
         depends_on:
             - "postgresql_database"
         build:
@@ -10,6 +10,8 @@ services:
             dockerfile: Dockerfile
         ports:
             - "5000:80"
+        environment:
+            DB_CONNECTION_STRING: "host=postgresql_database;port=5432;database=simplewebapi_db;username=simplewebapi;password=simplewebapi"
 
     postgresql_database:
         image: postgres:latest

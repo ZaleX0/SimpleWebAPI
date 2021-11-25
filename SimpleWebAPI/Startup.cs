@@ -30,11 +30,12 @@ namespace SimpleWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddDbContext<PersonDbContext>(options => {
-                options.UseNpgsql(Configuration.GetConnectionString("DockerConnection"));
+                options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
                 options.UseSnakeCaseNamingConvention();
             });
+
+            services.AddControllers();
             services.AddScoped<IPersonService, PersonService>();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddSwaggerGen(c => {
