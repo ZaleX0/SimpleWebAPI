@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleWebAPI.Entities;
@@ -52,6 +53,20 @@ namespace SimpleWebAPI.Controllers
         {
             _personService.Delete(id);
             return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update([FromBody] UpdatePersonDto dto, [FromRoute] int id)
+        {
+            _personService.Update(dto, id);
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public ActionResult Patch([FromBody] JsonPatchDocument<UpdatePersonDto> patchEntity, [FromRoute] int id)
+        {
+            _personService.Patch(patchEntity, id);
+            return Ok();
         }
     }
 }

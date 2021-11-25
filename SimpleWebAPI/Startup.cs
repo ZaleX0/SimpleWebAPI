@@ -32,10 +32,12 @@ namespace SimpleWebAPI
         {
             services.AddDbContext<PersonDbContext>(options => {
                 options.UseNpgsql(Environment.GetEnvironmentVariable("DB_CONNECTION_STRING"));
+                //options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
                 options.UseSnakeCaseNamingConvention();
             });
 
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
             services.AddScoped<IPersonService, PersonService>();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddSwaggerGen(c => {

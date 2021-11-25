@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.EntityFrameworkCore;
 using SimpleWebAPI.Entities;
 using SimpleWebAPI.Models;
@@ -60,6 +62,41 @@ namespace SimpleWebAPI.Services
 
             _dbContext.Persons.Remove(person);
             _dbContext.Addresses.Remove(person.Address);
+            _dbContext.SaveChanges();
+        }
+        public void Update(UpdatePersonDto dto, int id)
+        {
+            var person = _dbContext.Persons
+                .Include(p => p.Address)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (person is null) return;
+
+            person.Name = dto.Name;
+            person.Lastname = dto.Lastname;
+            person.Address.City = dto.City;
+            person.Address.Street = dto.Street;
+            person.Address.PostalCode = dto.PostalCode;
+
+            _dbContext.SaveChanges();
+        }
+        public void Patch(JsonPatchDocument<UpdatePersonDto> patchEntity, int id)
+        {
+            var person = _dbContext.Persons
+                .Include(p => p.Address)
+                .FirstOrDefault(p => p.Id == id);
+
+            if (person is null) return;
+
+            var updateDto = _mapper.Map<UpdatePersonDto>(person);
+            patchEntity.ApplyTo(updateDto);
+
+            person.Name = updateDto.Name;
+            person.Lastname = updateDto.Lastname;
+            person.Address.City = updateDto.City;
+            person.Address.Street = updateDto.Street;
+            person.Address.PostalCode = updateDto.PostalCode;
+
             _dbContext.SaveChanges();
         }
     }
