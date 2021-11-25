@@ -14,7 +14,7 @@ POST /person\
 DELETE /person/{id}\
 \
 Przykładowy JSON do czasownika POST
-```
+```json
 {
   "name": "name",
   "lastname": "lastname",
